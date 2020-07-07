@@ -145,7 +145,7 @@
     else if(w == 1) {
       if(gameMode == "Versus") gameOverMessage = "2P WIN!"
       else {
-        gameOverMessage = "YOU WIN"
+        gameOverMessage = "YOU WIN!"
         gameOverMessageLower = "Difficulty: " + gameMode
       }
     }
