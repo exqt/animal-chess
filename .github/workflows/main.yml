@@ -39,7 +39,6 @@ jobs:
 
     - name: move build files to static files repo
       run: |
-        rm -rf ../static_site_repo/*
         mv ./public/* ../static_site_repo/animal-chess
 
     - name: push changed files
