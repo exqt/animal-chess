@@ -1,0 +1,196 @@
+:root {
+  --board-row: 4;
+  --board-col: 3;
+  --tile-size: 112px;
+  --dot-size: 9px;
+  --dot-margin: 8px;
+}
+
+#app-wrapper {
+  height: 100%;
+}
+html, body {
+  margin: 0;
+  padding: 0;
+  background: #faf8ef;
+  color: #776e65;
+  font-family: "Clear Sans", "Helvetica Neue", Arial, sans-serif;
+  font-size: 18px;
+  user-select: none;
+}
+
+body {
+  margin: 20px 0;
+}
+
+.container {
+  text-align: center;
+}
+
+
+#ally-hand, #enemy-hand {
+  display: flex;
+  width: calc(var(--tile-size) / 2);
+  border: dashed 2px #776e65;
+  border-radius: 4px;
+  padding: 4px;
+}
+#ally-hand { flex-direction: column-reverse; }
+#enemy-hand { flex-direction: column; }
+
+.game-container {
+  display: inline-flex;
+  margin-bottom: 8px;
+}
+
+.game-message {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(238, 228, 218, 0.5);
+  border-radius: 6px;
+  color: #f9f6f2;
+  z-index: 100;
+  text-align: center;
+  animation: fade-in 800ms ease;
+  animation-fill-mode: both;
+}
+.game-message[data-on="true"] {
+  display: flex;
+}
+.game-message p {
+  font-size: 60px;
+  font-weight: bold;
+}
+.game-message .lower {
+  font-size: 30px;
+  font-weight: bold;
+}
+.game-setting {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  color: #f9f6f2;
+  position: absolute;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: 0;
+  background: rgba(238, 228, 218, 0.5);
+  z-index: 100;
+  text-align: center;
+  animation: fade-in 800ms ease;
+  animation-fill-mode: both;
+  font-size: 48px;
+  font-weight: 600;
+}
+.game-setting[data-on="true"] {
+  display: flex;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(3, var(--tile-size));
+  grid-gap: 15px;
+  z-index: 1;
+}
+
+.grid-wrapper {
+  position: relative;
+  padding: 0px 15px;
+  user-select: none;
+  background: #bbada0;
+  border-radius: 6px;
+  width: auto;
+  height: auto;
+  box-sizing: border-box;
+  display: inline-block;
+  margin: 0px 8px 0px 8px;
+}
+
+.grid-cell {
+  width: var(--tile-size);
+  height: var(--tile-size);
+  float: left;
+  border-radius: 3px;
+  background: rgba(238, 228, 218, 0.35);
+}
+
+.tile-container {
+  position: absolute;
+  z-index: 2;
+}
+.turn-indicator {
+  width: 100%;
+  height: 8px;
+  background: rgb(205, 193, 180);
+  border-radius: 4px;
+  margin: 7.5px 0px;
+  transition: 0.5s;
+}
+.turn-indicator[data-on=true][data-team="0"] {
+  background: #ffffff;
+}
+.turn-indicator[data-on=true][data-team="1"] {
+  background: #ffffff;
+}
+
+@keyframes fade-in {
+  0% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+/* mobile */
+@media screen and (max-width: 600px) {
+  :root {
+    --tile-size: 20vw;
+  }
+
+  body {
+    margin: 10px 0px;
+  }
+
+  .grid-cell {
+    width: var(--tile-size);
+    height: var(--tile-size);
+  }
+
+  .game-message p {
+    font-size: 45px;
+    font-weight: bold;
+  }
+  .game-message .lower {
+    font-size: 25px;
+    font-weight: bold;
+  }
+
+  .game-container {
+    display: inline-block;
+  }
+
+  #ally-hand {
+    display: flex;
+    flex-direction: row;
+    align-self: flex-start;
+    width: auto;
+    height: calc(var(--tile-size) / 2);
+  }
+
+  #enemy-hand {
+    display: flex;
+    flex-direction: row-reverse;
+    align-self: flex-end;
+    width: auto;
+    height: calc(var(--tile-size) / 2);
+  }
+  .grid-wrapper {
+    margin: 8px 0px 8px 0px;
+  }
+}

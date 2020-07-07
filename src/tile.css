@@ -1,0 +1,86 @@
+.tile {
+  position: relative;
+  width: var(--tile-size);
+  height: var(--tile-size);
+  line-height: var(--tile-size);
+  border-radius: 3px;
+  background: #eee4da;
+  text-align: center;
+  font-weight: bold;
+  z-index: 10;
+  box-sizing: border-box;
+  font-size: calc(var(--tile-size) / 2);
+  touch-action: none;
+}
+
+.tile[data-team="ally"] {
+  color: #f9f6f2;
+  background: #40b6da;
+}
+.tile[data-team="enemy"] {
+  color: #f9f6f2;
+  background: #da5f40;
+  transform: scale(-1);
+}
+
+.tile-dot-container {
+  position: absolute;
+  box-sizing: border-box;
+  display: grid;
+  grid-template-columns: repeat(3, var(--dot-size));
+  grid-gap: calc(var(--tile-size) / 2 - 1.5 * var(--dot-size) - var(--dot-margin));
+  margin: var(--dot-margin);
+}
+
+.tile-dot {
+  height: var(--dot-size);
+  width: var(--dot-size);
+  background-color: white;
+  border-radius: 50%;
+  z-index: -1;
+}
+
+.tile-dot-hidden {
+  height: var(--dot-size);
+  width: var(--dot-size);
+  visibility: hidden;
+}
+
+
+#ally-hand > .tile, #enemy-hand > .tile {
+  width: calc(var(--tile-size) / 2);
+  height: calc(var(--tile-size) / 2);
+  line-height: calc(var(--tile-size) / 2);
+  border-radius: 3px;
+  font-size: 27px;
+}
+
+#ally-hand > .tile { margin: 4px 0px 0px 0px; }
+#enemy-hand > .tile { margin: 0px 0px 4px 0px; }
+
+#ally-hand .tile-dot-container, #enemy-hand .tile-dot-container {
+  grid-template-columns: repeat(3, calc(var(--dot-size) / 2));
+  grid-gap: calc(var(--tile-size) / 4 - 0.75 * var(--dot-size) - var(--dot-margin) / 2);
+  margin: calc(var(--dot-margin) / 2);
+}
+
+#ally-hand .tile-dot, #enemy-hand .tile-dot, #ally-hand .tile-dot-hidden, #enemy-hand .tile-dot-hidden {
+  height: calc(var(--dot-size) / 2);
+  width: calc(var(--dot-size) / 2);
+}
+
+.hidden-tile-container {
+  position: fixed;
+  visibility: hidden;
+}
+.hidden-tile-container ~ .tile-dot {
+  visibility: hidden;
+}
+
+@media screen and (max-width: 600px) {
+  :root {
+    --dot-size: 6px;
+  }
+  #ally-hand > .tile { margin: 0px 4px 0px 0px; }
+  #enemy-hand > .tile { margin: 0px 0px 0px 4px; }
+}
