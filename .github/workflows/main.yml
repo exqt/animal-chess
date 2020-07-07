@@ -49,5 +49,5 @@ jobs:
       run: |
         cd ../static_site_repo
         git add .
-        git commit -m "Update animal-chess"
+        git commit -m "Update animal chess"
         git push origin master
