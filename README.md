@@ -17,3 +17,10 @@ yarn dev
 ```bash
 yarn build
 ```
+
+## Found a bug?
+Feel free to leave a issue on [the Issue Page](https://github.com/exqt/animal-chess/issues)!
+
+## LICENSE
+I don't have a license for this game.
+You can only use this for personal usage.
