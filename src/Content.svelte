@@ -167,10 +167,10 @@
   })
 
   // Modal
-  import { getContext } from 'svelte';
-  import HowToPlay from './HowToPlay.svelte';
-  const { open } = getContext('simple-modal');
-  const showHowToPlay = () => { open(HowToPlay); };
+  import { getContext } from 'svelte'
+  import HowToPlay from './HowToPlay.svelte'
+  const { open } = getContext('simple-modal')
+  const showHowToPlay = () => { open(HowToPlay) }
 
   // Game Selection
   function onNewGameButtonClick() {
