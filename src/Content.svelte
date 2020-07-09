@@ -10,6 +10,8 @@
   let gameState;
   gameStateStore.subscribe(v => { gameState = v })
   let gameAI = new DummyAI()
+  let gameAIsecond = new DummyAI()
+  let stopSecondAI = false
   let loaded = false
   let gameMode
   let showSelectGameMode = false
@@ -100,31 +102,36 @@
     else if(gameMode == "Hard") {
       gameAI = new AlphaBetaPruningAI(8)
     }
+    else if(gameMode == "SecondAI") {
+      gameAI = new AlphaBetaPruningAI(5)
+      gameAIsecond = new AlphaBetaPruningAI(5)
+    }
 
     console.log(gameState.toString())
     loaded = true
-    if(gameMode != "Versus") doAITurn()
+    if(gameMode != "Versus") doAITurn(gameAI)
   }
 
 
   // AI
   let AITurnTimeout
-  function doAITurn() {
-    if(gameState.turn == 1) return
+  function doAITurn(ai, delayTime = 500) {
+    if(AITurnTimeout) return
     AITurnTimeout = setTimeout(() => {
       if(gameState.getWinner() != -1) return
-      let {state, type, parameters} = gameAI.doAction(gameState)
+      AITurnTimeout = null
+
+      let {state, type, parameters} = ai.doAction(gameState)
       if(type == "move") {
         move(parameters[0], parameters[1], parameters[2], parameters[3])
       }
       else if(type == "spawn") {
         spawn(parameters[0], parameters[1], parameters[2])
       }
-      AITurnTimeout = null
-    }, gameMode != "Hard" && gameState.totalTurns > 0 ? 0 : 500)
+    }, delayTime)
   }
 
-  // Game Message
+  // Game Update
   let gameOverMessage = ""
   let gameOverMessageLower = ""
   gameStateStore.subscribe((s) => {
@@ -136,14 +143,14 @@
       gameOverMessageLower = ""
     }
     else if(w == 0) {
-      if(gameMode == "Versus") gameOverMessage = "1P WIN!"
+      if(gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "1P WIN!"
       else {
         gameOverMessage = "YOU LOSE"
         gameOverMessageLower = "Difficulty: " + gameMode
       }
     }
     else if(w == 1) {
-      if(gameMode == "Versus") gameOverMessage = "2P WIN!"
+      if(gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "2P WIN!"
       else {
         gameOverMessage = "YOU WIN!"
         gameOverMessageLower = "Difficulty: " + gameMode
@@ -155,7 +162,8 @@
       showGameEnd = true
     }
 
-    if(s.turn == 0 && gameMode != "Versus") doAITurn();
+    if(s.turn == 0 && gameMode != "Versus") doAITurn(gameAI)
+    else if(!stopSecondAI && s.turn == 1 && gameMode == "SecondAI") doAITurn(gameAIsecond, 500)
   })
 
   // Modal
@@ -202,6 +210,18 @@
       }
     }
   })
+
+  document.addEventListener('keydown', onKeydown)
+  function onKeydown(e) {
+    if(e.code == "KeyS") {
+      stopSecondAI = !stopSecondAI
+      if(stopSecondAI) doAITurn(gameAIsecond, 1)
+    }
+    else if(e.code == "KeyA") {
+      doAITurn(gameAIsecond, 1)
+    }
+  }
+
 </script>
 
 <style>
@@ -224,6 +244,7 @@
         </div>
         <div>
           <Button onClick={() => newGame("Versus")}>2P Versus</Button>
+          <Button onClick={() => newGame("SecondAI")}>Bot vs Bot</Button>
         </div>
       </div>
       <div class="game-message" data-on={showGameEnd}>

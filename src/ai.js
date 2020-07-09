@@ -118,7 +118,15 @@ class AlphaBetaPruningAI extends AI {
       let value = 100000
       let list = state.getAllNextStates()
       for(let next of this.sortStateByValue(list, -1)) {
-        value = Math.min(value, this.alphabeta(next.state, depth-1, alpha, beta, "max"))
+        let ab = this.alphabeta(next.state, depth-1, alpha, beta, "max")
+        if(ab <= value) {
+          if(root && ab < value) this.rootActions = []
+          value = ab
+          if(root) {
+            this.rootActions.push(next)
+            this.rootValue = value
+          }
+        }
         beta = Math.min(beta, value)
         if(alpha >= beta) break
       }
@@ -136,7 +144,7 @@ class AlphaBetaPruningAI extends AI {
 
     if(Object.keys(this.cache).length > 100000) this.cache = {}
 
-    this.alphabeta(state, this.maxDepth, -100000, 100000, "max", true)
+    this.alphabeta(state, this.maxDepth, -100000, 100000, state.turn == 0 ? "max" : "min", true)
 
     let endDate   = new Date()
     let seconds = (endDate.getTime() - startDate.getTime()) / 1000
