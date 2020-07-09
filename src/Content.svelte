@@ -12,6 +12,7 @@
   let gameAI = new DummyAI()
   let gameAIsecond = new DummyAI()
   let stopSecondAI = false
+  let defaultDelayTime = 500
   let loaded = false
   let gameMode
   let showSelectGameMode = false
@@ -115,7 +116,7 @@
 
   // AI
   let AITurnTimeout
-  function doAITurn(ai, delayTime = 500) {
+  function doAITurn(ai, delayTime = defaultDelayTime) {
     if(AITurnTimeout) return
     AITurnTimeout = setTimeout(() => {
       if(gameState.getWinner() != -1) return
@@ -163,7 +164,7 @@
     }
 
     if(s.turn == 0 && gameMode != "Versus") doAITurn(gameAI)
-    else if(!stopSecondAI && s.turn == 1 && gameMode == "SecondAI") doAITurn(gameAIsecond, 500)
+    else if(!stopSecondAI && s.turn == 1 && gameMode == "SecondAI") doAITurn(gameAIsecond)
   })
 
   // Modal
@@ -215,10 +216,14 @@
   function onKeydown(e) {
     if(e.code == "KeyS") {
       stopSecondAI = !stopSecondAI
-      if(stopSecondAI) doAITurn(gameAIsecond, 1)
+      if(!stopSecondAI) doAITurn(gameAIsecond, 1)
     }
     else if(e.code == "KeyA") {
       doAITurn(gameAIsecond, 1)
+    }
+    else if(e.code == "KeyQ") {
+      if(defaultDelayTime == 500) defaultDelayTime = 50
+      else defaultDelayTime = 500
     }
   }
 
