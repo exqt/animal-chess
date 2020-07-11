@@ -4,10 +4,10 @@
   import Button from './Button'
   import CONST from './constants'
   import utils from './utils'
-  import { gameStateStore } from './store'
+  import { gameStateStore, gitHashStore } from './store'
   import { DummyAI, AlphaBetaPruningAI } from './ai'
 
-  let gameState;
+  let gameState
   gameStateStore.subscribe(v => { gameState = v })
   let gameAI = new DummyAI()
   let gameAIsecond = new DummyAI()
@@ -285,5 +285,8 @@
   <div class="buttons">
     <Button onClick={onNewGameButtonClick}>NEW GAME</Button>
     <Button onClick={showHowToPlay}>HOW TO PLAY</Button>
+  </div>
+  <div class="github">
+    <a href={`https://github.com/exqt/animal-chess/commit/${$gitHashStore}`}>{($gitHashStore).slice(0, 10)}</a>
   </div>
 </div>
