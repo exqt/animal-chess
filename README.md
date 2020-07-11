@@ -1,5 +1,5 @@
 # Animal Chess
-[Play!](exqt.github.io/animal-chess/)
+[Play!](https://exqt.github.io/animal-chess/)
 
 - 2 Game Modes!
   - VS Bot(Easy, Medium, Hard)
