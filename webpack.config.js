@@ -1,8 +1,10 @@
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const path = require('path')
-
+const GitRevisionPlugin = require('git-revision-webpack-plugin')
+const gitRevisionPlugin = new GitRevisionPlugin()
 const mode = process.env.NODE_ENV || 'development'
 const prod = mode === 'production'
+const DefinePlugin = require('webpack').DefinePlugin
 
 module.exports = {
   entry: {
@@ -49,7 +51,12 @@ module.exports = {
   plugins: [
     new MiniCssExtractPlugin({
       filename: '[name].css'
-    })
+    }),
+    new DefinePlugin({
+      'VERSION': JSON.stringify(gitRevisionPlugin.version()),
+      'COMMITHASH': JSON.stringify(gitRevisionPlugin.commithash()),
+      'BRANCH': JSON.stringify(gitRevisionPlugin.branch()),
+    }),
   ],
   devtool: prod ? false : 'source-map'
 }
