@@ -17,7 +17,7 @@
 <h2>How to win</h2>
 <ol>
   <li>The player who first catches the opponent's 🦁 wins.</li>
-  <li>You also win the game if your 🦁 safely reaches the opponent's area (last row). However, you lose if the end 🦁 is caught right after he reaches there.</li>
+  <li>You also win the game if  your 🦁 safely reaches the opponent's area (last row). However, you lose if the end 🦁 is caught right after he reaches there.</li>
 </ol>
 
 <h2>Other rules</h2>

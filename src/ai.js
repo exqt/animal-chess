@@ -36,43 +36,43 @@ class AlphaBetaPruningAI extends AI {
 
   evaluate(state) {
     let winner = state.getWinner()
-    if(winner == 0) return 10000 - state.totalturns
-    if(winner == 1) return -10000 + state.totalturns
+    if (winner == 0) return 10000 - state.totalturns
+    if (winner == 1) return -10000 + state.totalturns
 
     let score = 0
-    for(let i=0; i<CONST.BOARD_ROW; i++) {
-      for(let j=0; j<CONST.BOARD_COL; j++) {
-        if(state.cells[i][j] == CONST.EMPTY) continue
+    for (let i=0; i<CONST.BOARD_ROW; i++) {
+      for (let j=0; j<CONST.BOARD_COL; j++) {
+        if (state.cells[i][j] == CONST.EMPTY) continue
 
         let type = utils.getType(state.cells[i][j])
         let teamCof = utils.getTeam(state.cells[i][j]) == 0 ? 1 : -1
 
-        if(type == CONST.CHICK) {
-          if(teamCof == 1 && i == CONST.BOARD_ROW-1) score += -100
-          else if(teamCof == -1 && i == 0) score -= -100
+        if (type == CONST.CHICK) {
+          if (teamCof == 1 && i == CONST.BOARD_ROW-1) score += -100
+          else if (teamCof == -1 && i == 0) score -= -100
           else score += 15 * teamCof
         }
-        else if(type == CONST.ELEPHANT) {
+        else if (type == CONST.ELEPHANT) {
           score += ((j == 1 ? 20 : 35) + ((i == 1 || i == 2) ? 10 : 0))  * teamCof
         }
-        else if(type == CONST.GIRAFFE) {
+        else if (type == CONST.GIRAFFE) {
           score += 35 * teamCof
         }
-        else if(type == CONST.HEN) {
-          if(teamCof == 1) score += (CONST.BOARD_ROW-1-i)*25 + 10
-          else if(teamCof == -1) score -= (i)*25 + 10
+        else if (type == CONST.HEN) {
+          if (teamCof == 1) score += (CONST.BOARD_ROW-1-i)*25 + 10
+          else if (teamCof == -1) score -= (i)*25 + 10
         }
-        else if(type == CONST.LION) {
-          if(teamCof == 1) score += (i)*7
-          else if(teamCof == -1) score -= (CONST.BOARD_ROW-1-i)*7
+        else if (type == CONST.LION) {
+          if (teamCof == 1) score += (i)*7
+          else if (teamCof == -1) score -= (CONST.BOARD_ROW-1-i)*7
         }
       }
     }
 
-    for(let tile of state.hands[0]) {
+    for (let tile of state.hands[0]) {
       score += this.handWeights[utils.getType(tile)]
     }
-    for(let tile of state.hands[1]) {
+    for (let tile of state.hands[1]) {
       score -= this.handWeights[utils.getType(tile)]
     }
     score += state.totalturns * (state.turn == 0 ? -1 : 1);
@@ -89,46 +89,46 @@ class AlphaBetaPruningAI extends AI {
   alphabeta(state, depth, alpha, beta, minmax, root = false) {
     this.exploredCount += 1
     // let h = state.hash()
-    // if(!root && this.cache[h | (depth<<32)]) {
+    // if (!root && this.cache[h | (depth<<32)]) {
     //   return this.cache[h | (depth<<32)]
     // }
-    if(depth == 0 || state.getWinner() != -1)
+    if (depth == 0 || state.getWinner() != -1)
       return this.evaluate(state)
 
-    if(minmax == "max") {
+    if (minmax == "max") {
       let value = -100000
       let list = state.getAllNextStates()
-      for(let next of this.sortStateByValue(list, 1)) {
+      for (let next of this.sortStateByValue(list, 1)) {
         let ab = this.alphabeta(next.state, depth-1, alpha, beta, "min")
-        if(ab >= value) {
-          if(root && ab > value) this.rootActions = []
+        if (ab >= value) {
+          if (root && ab > value) this.rootActions = []
           value = ab
-          if(root) {
+          if (root) {
             this.rootActions.push(next)
             this.rootValue = value
           }
         }
         alpha = Math.max(alpha, value)
-        if(alpha >= beta) break
+        if (alpha >= beta) break
       }
       //this.cache[h | (depth<<32)] = value
       return value
     }
-    else if(minmax == "min") {
+    else if (minmax == "min") {
       let value = 100000
       let list = state.getAllNextStates()
-      for(let next of this.sortStateByValue(list, -1)) {
+      for (let next of this.sortStateByValue(list, -1)) {
         let ab = this.alphabeta(next.state, depth-1, alpha, beta, "max")
-        if(ab <= value) {
-          if(root && ab < value) this.rootActions = []
+        if (ab <= value) {
+          if (root && ab < value) this.rootActions = []
           value = ab
-          if(root) {
+          if (root) {
             this.rootActions.push(next)
             this.rootValue = value
           }
         }
         beta = Math.min(beta, value)
-        if(alpha >= beta) break
+        if (alpha >= beta) break
       }
       ///this.cache[h | (depth<<32)] = value
       return value
@@ -142,7 +142,7 @@ class AlphaBetaPruningAI extends AI {
 
     let startDate = new Date()
 
-    if(Object.keys(this.cache).length > 100000) this.cache = {}
+    if (Object.keys(this.cache).length > 100000) this.cache = {}
 
     this.alphabeta(state, this.maxDepth, -100000, 100000, state.turn == 0 ? "max" : "min", true)
 

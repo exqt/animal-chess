@@ -31,7 +31,7 @@
     let tile = getTileById(tileId)
     let destCell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`)
 
-    if(destCell.children.length > 0) {
+    if (destCell.children.length > 0) {
       let capturedTile = destCell.children[0]
       moveTileToHand(capturedTile.id, gameState.turn === 1 ? "ally-hand" : "enemy-hand")
     }
@@ -46,10 +46,10 @@
   }
 
   function move(srcRow, srcCol, destRow, destCol) {
-    if(gameState.getWinner() != -1) return
+    if (gameState.getWinner() != -1) return
     gameStateStore.update(s => {
       let newState = s.copy()
-      if(newState.move(srcRow, srcCol, destRow, destCol)) {
+      if (newState.move(srcRow, srcCol, destRow, destCol)) {
         moveTileToGrid(utils.getId(s.get(srcRow, srcCol)), destRow, destCol)
         console.log(newState.toString())
       }
@@ -58,10 +58,10 @@
   }
 
   function spawn(destRow, destCol, tileId) {
-    if(gameState.getWinner() != -1) return
+    if (gameState.getWinner() != -1) return
     gameStateStore.update(s => {
       let newState = s.copy()
-      if(newState.spawn(destRow, destCol, tileId)) {
+      if (newState.spawn(destRow, destCol, tileId)) {
         moveTileToGrid(tileId, destRow, destCol)
         console.log(newState.toString())
       }
@@ -88,45 +88,45 @@
     moveTileToGrid(7, 3, 2)
     console.log("THE GAME STARTS!")
 
-    if(AITurnTimeout) {
+    if (AITurnTimeout) {
       clearTimeout(AITurnTimeout)
       AITurnTimeout = null
     }
 
     gameMode = _gameMode
-    if(gameMode == "Easy") {
+    if (gameMode == "Easy") {
       gameAI = new AlphaBetaPruningAI(2)
     }
-    else if(gameMode == "Medium") {
+    else if (gameMode == "Medium") {
       gameAI = new AlphaBetaPruningAI(5)
     }
-    else if(gameMode == "Hard") {
+    else if (gameMode == "Hard") {
       gameAI = new AlphaBetaPruningAI(8)
     }
-    else if(gameMode == "SecondAI") {
+    else if (gameMode == "SecondAI") {
       gameAI = new AlphaBetaPruningAI(5)
       gameAIsecond = new AlphaBetaPruningAI(5)
     }
 
     console.log(gameState.toString())
     loaded = true
-    if(gameMode != "Versus") doAITurn(gameAI)
+    if (gameMode != "Versus") doAITurn(gameAI)
   }
 
 
   // AI
   let AITurnTimeout
   function doAITurn(ai, delayTime = defaultDelayTime) {
-    if(AITurnTimeout) return
+    if (AITurnTimeout) return
     AITurnTimeout = setTimeout(() => {
-      if(gameState.getWinner() != -1) return
+      if (gameState.getWinner() != -1) return
       AITurnTimeout = null
 
       let {state, type, parameters} = ai.doAction(gameState)
-      if(type == "move") {
+      if (type == "move") {
         move(parameters[0], parameters[1], parameters[2], parameters[3])
       }
-      else if(type == "spawn") {
+      else if (type == "spawn") {
         spawn(parameters[0], parameters[1], parameters[2])
       }
     }, delayTime)
@@ -136,35 +136,35 @@
   let gameOverMessage = ""
   let gameOverMessageLower = ""
   gameStateStore.subscribe((s) => {
-    if(!loaded) return
+    if (!loaded) return
 
     let w = s.getWinner()
-    if(w == -1) {
+    if (w == -1) {
       gameOverMessage = "INGAME"
       gameOverMessageLower = ""
     }
-    else if(w == 0) {
-      if(gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "1P WIN!"
+    else if (w == 0) {
+      if (gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "1P WIN!"
       else {
         gameOverMessage = "YOU LOSE"
-        gameOverMessageLower = "Difficulty: " + gameMode
+        gameOverMessageLower = "Dif ficulty: " + gameMode
       }
     }
-    else if(w == 1) {
-      if(gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "2P WIN!"
+    else if (w == 1) {
+      if (gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "2P WIN!"
       else {
         gameOverMessage = "YOU WIN!"
-        gameOverMessageLower = "Difficulty: " + gameMode
+        gameOverMessageLower = "Dif ficulty: " + gameMode
       }
     }
 
-    if(w != -1) {
-      if(AITurnTimeout) clearTimeout(AITurnTimeout)
+    if (w != -1) {
+      if (AITurnTimeout) clearTimeout(AITurnTimeout)
       showGameEnd = true
     }
 
-    if(s.turn == 0 && gameMode != "Versus") doAITurn(gameAI)
-    else if(!stopSecondAI && s.turn == 1 && gameMode == "SecondAI") doAITurn(gameAIsecond)
+    if (s.turn == 0 && gameMode != "Versus") doAITurn(gameAI)
+    else if (!stopSecondAI && s.turn == 1 && gameMode == "SecondAI") doAITurn(gameAIsecond)
   })
 
   // Modal
@@ -191,14 +191,14 @@
           overlap: 0.5,
         })
         .on("drop", (e) => {
-          if(gameMode != "Versus" && AITurnTimeout) return
+          if (gameMode != "Versus" && AITurnTimeout) return
 
           let target = e.target
           let tile = e.draggable.target
           let destRow = parseInt(target.dataset.row)
           let destCol = parseInt(target.dataset.col)
 
-          if(tile.parentNode.className.slice(0, 9) == "grid-cell") {
+          if (tile.parentNode.className.slice(0, 9) == "grid-cell") {
             let srcRow = parseInt(tile.parentNode.dataset.row)
             let srcCol = parseInt(tile.parentNode.dataset.col)
             move(srcRow, srcCol, destRow, destCol)
@@ -214,15 +214,15 @@
 
   document.addEventListener('keydown', onKeydown)
   function onKeydown(e) {
-    if(e.code == "KeyS") {
+    if (e.code == "KeyS") {
       stopSecondAI = !stopSecondAI
-      if(!stopSecondAI) doAITurn(gameAIsecond, 1)
+      if (!stopSecondAI) doAITurn(gameAIsecond, 1)
     }
-    else if(e.code == "KeyA") {
+    else if (e.code == "KeyA") {
       doAITurn(gameAIsecond, 1)
     }
-    else if(e.code == "KeyQ") {
-      if(defaultDelayTime == 500) defaultDelayTime = 50
+    else if (e.code == "KeyQ") {
+      if (defaultDelayTime == 500) defaultDelayTime = 50
       else defaultDelayTime = 500
     }
   }

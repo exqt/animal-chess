@@ -15,27 +15,27 @@
 
   gameStateStore.subscribe((s) => {
     let tileInfo = s.findTileById(tileId)
-    if(!tileInfo) return
+    if (!tileInfo) return
     team = utils.getTeam(tileInfo.tile)
     type = utils.getType(tileInfo.tile)
 
-    if(type == CONST.LION) {
+    if (type == CONST.LION) {
       emoji = "🦁"
       dotPositions = [true, true, true, true, false, true, true, true, true]
     }
-    else if(type == CONST.ELEPHANT) {
+    else if (type == CONST.ELEPHANT) {
       emoji = "🐘"
       dotPositions = [true, false, true, false, false, false, true, false, true]
     }
-    else if(type == CONST.GIRAFFE) {
+    else if (type == CONST.GIRAFFE) {
       emoji = "🦒"
       dotPositions = [false, true, false, true, false, true, false, true, false]
     }
-    else if(type == CONST.CHICK) {
+    else if (type == CONST.CHICK) {
       emoji = "🐤"
       dotPositions = [false, true, false, false, false, false, false, false, false]
     }
-    else if(type == CONST.HEN) {
+    else if (type == CONST.HEN) {
       emoji = "🐓"
       dotPositions = [true, true, true, true, false, true, false, true, false]
     }
@@ -52,10 +52,10 @@
     interact(tileElement).draggable({
       listeners: {
         start(e) {
-          if(draggable) isDragging = true
+          if (draggable) isDragging = true
         },
         move(e) {
-          if(isDragging) {
+          if (isDragging) {
             tx += e.dx
             ty += e.dy
           }
