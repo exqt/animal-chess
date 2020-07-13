@@ -7,7 +7,7 @@
   import { gameStateStore } from './store'
   import { DummyAI, AlphaBetaPruningAI } from './ai'
 
-  let gameState;
+  let gameState
   gameStateStore.subscribe(v => { gameState = v })
   let gameAI = new DummyAI()
   let gameAIsecond = new DummyAI()
@@ -40,9 +40,9 @@
   }
 
   function moveTileToHand(tileId, handId) {
-    let tile = document.getElementById(tileId);
-    let hand = document.getElementById(handId);
-    hand.appendChild(tile);
+    let tile = document.getElementById(tileId)
+    let hand = document.getElementById(handId)
+    hand.appendChild(tile)
   }
 
   function move(srcRow, srcCol, destRow, destCol) {

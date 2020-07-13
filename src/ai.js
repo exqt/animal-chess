@@ -1,5 +1,5 @@
-const CONST = require("./constants");
-const utils = require("./utils");
+const CONST = require("./constants")
+const utils = require("./utils")
 
 class AI {
   constructor() {
@@ -18,7 +18,7 @@ class DummyAI extends AI {
 
   doAction(state) {
     let states = state.getAllNextStates()
-    return states[Math.floor(Math.random() * states.length)];
+    return states[Math.floor(Math.random() * states.length)]
   }
 }
 
@@ -75,7 +75,7 @@ class AlphaBetaPruningAI extends AI {
     for (let tile of state.hands[1]) {
       score -= this.handWeights[utils.getType(tile)]
     }
-    score += state.totalturns * (state.turn == 0 ? -1 : 1);
+    score += state.totalturns * (state.turn == 0 ? -1 : 1)
 
     return score
   }
@@ -150,7 +150,7 @@ class AlphaBetaPruningAI extends AI {
     let seconds = (endDate.getTime() - startDate.getTime()) / 1000
     console.log(`[AI] Explored: ${this.exploredCount} | Time: ${seconds} | Score: ${this.rootValue} | Candidates: ${this.rootActions.length}`)
 
-    return this.rootActions[Math.floor(Math.random() * this.rootActions.length)];
+    return this.rootActions[Math.floor(Math.random() * this.rootActions.length)]
   }
 }
 

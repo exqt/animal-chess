@@ -5,7 +5,7 @@
   const utils = require("./utils")
   const CONST = require("./constants")
 
-  export let tileId;
+  export let tileId
 
   let type
   let team
