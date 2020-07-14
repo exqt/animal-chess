@@ -196,4 +196,7 @@ body {
   .grid-wrapper {
     margin: 8px 0px 8px 0px;
   }
+  .github > a {
+    font-size: small;
+  }
 }
