@@ -1,5 +1,6 @@
 const CONST = require('./constants')
 const utils = require('./utils')
+const { BOARD_COL, BOARD_ROW } = require('./constants')
 
 class GameState {
   constructor() {
@@ -202,14 +203,15 @@ class GameState {
     let {where, index, tile} = this.findTileById(id)
 
     if (this.cells[r][c] != CONST.EMPTY) return false
-    if (this.turn == 0) {
-      if (where != "red_hand") return false
-      this.hands[0].splice(index, 1)
+    if (this.turn == 0 && where != "red_hand") return false
+    if (this.turn == 1 && where != "blue_hand") return false
+    if (utils.getType(tile) == CONST.CHICK) {
+      if (this.turn == 0 && r == BOARD_ROW-1) return false
+      if (this.turn == 1 && r == 0) return false
     }
-    else {
-      this.hands[1].splice(index, 1)
-      if (where != "blue_hand") return false
-    }
+
+    if (this.turn == 0) this.hands[0].splice(index, 1)
+    if (this.turn == 1) this.hands[1].splice(index, 1)
 
     this.cells[r][c] = tile
     this.turn = 1 - this.turn
@@ -227,7 +229,7 @@ class GameState {
 
           for (let move of moves) {
             let state = this.copy()
-            state.move(i, j, move[0], move[1])
+            if(!state.move(i, j, move[0], move[1])) continue
             states.push({state: state, type: "move", parameters: [i, j, move[0], move[1]]})
           }
         }
@@ -241,7 +243,7 @@ class GameState {
 
             let tileId = utils.getId(tile)
             let state = this.copy()
-            state.spawn(i, j, tileId)
+            if (!state.spawn(i, j, tileId)) continue
             states.push({state: state, type: "spawn", parameters: [i, j, tileId]})
             played.push(tileType)
           }
