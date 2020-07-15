@@ -17,6 +17,7 @@
   let gameMode
   let showSelectGameMode = false
   let showGameEnd = false
+  let logs = []
 
   function getTile(row, col) {
     let cell = document.querySelector(`.grid-cell[data-row="${row}"][data-col="${col}"]`)
@@ -51,6 +52,7 @@
       let newState = s.copy()
       if (newState.move(srcRow, srcCol, destRow, destCol)) {
         moveTileToGrid(utils.getId(s.get(srcRow, srcCol)), destRow, destCol)
+        logs.push(`move(${srcRow}, ${srcCol}, ${destRow}, ${destCol})`)
         console.log(newState.toString())
       }
       return newState
@@ -63,6 +65,7 @@
       let newState = s.copy()
       if (newState.spawn(destRow, destCol, tileId)) {
         moveTileToGrid(tileId, destRow, destCol)
+        logs.push(`spawn(${destRow}, ${destCol}, ${tileId})`)
         console.log(newState.toString())
       }
       return newState
@@ -111,6 +114,8 @@
     console.log(gameState.toString())
     loaded = true
     if (gameMode != "Versus") doAITurn(gameAI)
+
+    logs = []
   }
 
 
@@ -224,6 +229,9 @@
     else if (e.code == "KeyQ") {
       if (defaultDelayTime == 500) defaultDelayTime = 50
       else defaultDelayTime = 500
+    }
+    else if (e.code == "KeyP") {
+      console.log(logs.join("\n"))
     }
   }
 
