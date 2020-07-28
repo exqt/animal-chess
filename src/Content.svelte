@@ -152,14 +152,14 @@
       if (gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "1P WIN!"
       else {
         gameOverMessage = "YOU LOSE"
-        gameOverMessageLower = "Dif ficulty: " + gameMode
+        gameOverMessageLower = "Difficulty: " + gameMode
       }
     }
     else if (w == 1) {
       if (gameMode == "Versus" || gameMode == "SecondAI") gameOverMessage = "2P WIN!"
       else {
         gameOverMessage = "YOU WIN!"
-        gameOverMessageLower = "Dif ficulty: " + gameMode
+        gameOverMessageLower = "Difficulty: " + gameMode
       }
     }
 

@@ -46,7 +46,7 @@
   let tx = 0
   let ty = 0
 
-	import { onMount } from 'svelte'
+  import { onMount } from 'svelte'
   let tileElement
   onMount(() => {
     interact(tileElement).draggable({
