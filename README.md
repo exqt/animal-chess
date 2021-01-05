@@ -1,12 +1,13 @@
 # Animal Chess
 [Play!](https://exqt.github.io/animal-chess/)
 
+Origin : [Dobutsu shogi](https://en.wikipedia.org/wiki/D%C5%8Dbutsu_sh%C5%8Dgi)
+
 - 2 Game Modes!
   - VS Bot(Easy, Medium, Hard)
   - Local 2P VS
 - Works on mobile!
 - Made with Svelte!
-- Also known as "Dobutsu Shogi"
 
 ![](.github/preview.png)
 

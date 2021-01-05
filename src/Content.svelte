@@ -104,7 +104,7 @@
       gameAI = new AlphaBetaPruningAI(5)
     }
     else if (gameMode == "Hard") {
-      gameAI = new AlphaBetaPruningAI(8)
+      gameAI = new AlphaBetaPruningAI(7)
     }
     else if (gameMode == "SecondAI") {
       gameAI = new AlphaBetaPruningAI(5)
